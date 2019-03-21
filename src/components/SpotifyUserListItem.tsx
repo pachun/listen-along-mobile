@@ -15,7 +15,7 @@ const SpotifyUserListItem: React.SFC<ISpotifyUserListItemProps> = ({
   numberOfListeners,
 }) => {
   const spotifyUser = item.item
-  if (spotifyUser.broadcaster !== null) {
+  if (spotifyUser.broadcaster !== null || spotifyUser.is_listening === false) {
     return null
   }
   return (
