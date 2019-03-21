@@ -82,9 +82,18 @@ class SpotifyUsersScreen extends React.Component {
       if (listenAlongToken === null) {
         api.authenticateAndListenTo(broadcasterUsername)
       } else {
-        api.listenAlong(broadcasterUsername).then(this.updateSpotifyUsers)
+        api
+          .listenAlong(broadcasterUsername)
+          .then(this.updateSpotifyUsers)
+          .catch(this.refreshTokenAndListenAlong(broadcaster))
       }
     })
+  }
+
+  private refreshTokenAndListenAlong = (broadcaster: ISpotifyUser) => () => {
+    AsyncStorage.removeItem("listenAlongToken").then(
+      this.listenAlong(broadcaster),
+    )
   }
 }
 
