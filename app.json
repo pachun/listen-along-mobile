@@ -26,6 +26,9 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "fm.listenalong"
+    },
+    "android": {
+      "package": "fm.listenalong"
     }
   }
 }

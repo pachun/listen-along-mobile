@@ -5,7 +5,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "eject": "expo eject",
-    "build:ios": "expo build:ios"
+    "build:ios": "expo build:ios",
+    "build:android": "expo build:android"
   },
   "dependencies": {
     "axios": "^0.18.0",
