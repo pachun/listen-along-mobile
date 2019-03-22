@@ -6,11 +6,13 @@ import reactNativeActioncable from "react-native-actioncable"
 const listenAlongToken = async () =>
   await AsyncStorage.getItem("listenAlongToken")
 
-const baseURL = __DEV__
+const dev = __DEV__
+
+const baseURL = dev
   ? "http://localhost:3000"
   : "https://listen-along-api.herokuapp.com/"
 
-const websocketURL = __DEV__
+const websocketURL = dev
   ? "ws://localhost:3000/cable"
   : "ws://listen-along-api.herokuapp.com/cable"
 
