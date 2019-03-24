@@ -14,11 +14,18 @@
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
     "react-native-actioncable": "^0.0.3",
-    "react-navigation": "^3.4.1"
+    "react-native-flash-message": "^0.1.11",
+    "react-navigation": "^3.4.1",
+    "react-redux": "^6.0.1",
+    "redux": "^4.0.1"
   },
   "devDependencies": {
     "@types/expo": "^32.0.8",
+    "@types/expo__vector-icons": "^9.0.1",
     "@types/react": "^16.8.8",
+    "@types/react-navigation": "^3.0.5",
+    "@types/react-redux": "^7.0.5",
+    "@types/redux": "^3.6.0",
     "prettier": "^1.16.4",
     "tslint": "^5.14.0",
     "tslint-config-airbnb": "^5.11.1",

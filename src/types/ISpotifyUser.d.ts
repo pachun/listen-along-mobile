@@ -9,7 +9,6 @@ interface ISpotifyUser {
   listening_along: boolean
   song_artists: string[]
   song_name: string
+  song_uri: string
   broadcaster: ISpotifyUser | null
 }
-
-export default ISpotifyUser

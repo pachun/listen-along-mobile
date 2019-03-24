@@ -1,9 +1,11 @@
-import { createAppContainer, createStackNavigator } from "react-navigation"
+import * as React from "react"
+import { Provider } from "react-redux"
 
-import SpotifyUsersScreen from "./screens/SpotifyUsersScreen"
+import AppNavigator from "./navigators/AppNavigator"
+import store from "./store"
 
-const AppNavigator = createStackNavigator({
-  SpotifyUsers: { screen: SpotifyUsersScreen },
-})
-
-export default createAppContainer(AppNavigator)
+export default () => (
+  <Provider store={store}>
+    <AppNavigator />
+  </Provider>
+)

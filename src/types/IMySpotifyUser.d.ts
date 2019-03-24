@@ -1,0 +1,1 @@
+type IMySpotifyUser = ISpotifyUser | undefined

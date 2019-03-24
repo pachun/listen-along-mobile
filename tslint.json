@@ -10,6 +10,11 @@
     "prefer-array-literal": [true, { "allow-type-parameters": true }],
     "variable-name": [true, "ban-keywords", "check-format", "allow-pascal-case", "allow-leading-underscore"],
     "no-unused-styles": true,
-    "ordered-imports": [false]
+    "ordered-imports": [false],
+    "no-else-after-return": {
+      "options": "allow-else-if"
+    },
+    "object-literal-sort-keys": false,
+    "import-name": [false]
   }
 }

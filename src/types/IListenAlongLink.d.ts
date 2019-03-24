@@ -1,0 +1,3 @@
+interface IListenAlongLink {
+  url: string
+}

@@ -1,0 +1,3 @@
+interface IImageSource {
+  uri: string
+}

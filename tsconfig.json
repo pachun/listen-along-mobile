@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "es6",
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "lib": ["es7", "es6"],
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "jsx": "react-native",
+    "moduleResolution": "node"
+  }
+}

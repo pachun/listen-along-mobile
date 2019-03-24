@@ -17,20 +17,12 @@ const websocketURL = dev
   : "ws://listen-along-api.herokuapp.com/cable"
 
 const api = {
+  cable: reactNativeActioncable.createConsumer(websocketURL),
+
   authenticateAndListenTo: async (broadcasterUsername: string) => {
     return Linking.openURL(
       `${baseURL}/registering_spotify_users/new?broadcaster_username=${broadcasterUsername}&mobile=true`,
     )
-  },
-
-  cable: reactNativeActioncable.createConsumer(websocketURL),
-
-  listenAlong: async (broadcasterName: string) => {
-    const client = axios.create({
-      baseURL,
-      headers: { Authorization: `Bearer ${await listenAlongToken()}` },
-    })
-    return client.get(`/listen_along?broadcaster_username=${broadcasterName}`)
   },
 
   spotifyUsers: async () => {
@@ -39,6 +31,26 @@ const api = {
       headers: { Authorization: `Bearer ${await listenAlongToken()}` },
     })
     return (await client.get(`/spotify_users`)).data
+  },
+
+  listenAlong: async (broadcasterName: string) => {
+    const client = axios.create({
+      baseURL,
+      headers: { Authorization: `Bearer ${await listenAlongToken()}` },
+    })
+    return client.post("/listen_along", {
+      broadcaster_username: broadcasterName,
+    })
+  },
+
+  addSongToMyLibrary: async (songId: string) => {
+    const client = axios.create({
+      baseURL,
+      headers: { Authorization: `Bearer ${await listenAlongToken()}` },
+    })
+    return client.put("/add_to_library", {
+      song_id: songId,
+    })
   },
 }
 
