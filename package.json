@@ -6,7 +6,8 @@
     "ios": "expo start --ios",
     "eject": "expo eject",
     "build:ios": "expo build:ios",
-    "build:android": "expo build:android"
+    "build:android": "expo build:android",
+    "deploy": "expo-cli publish"
   },
   "dependencies": {
     "axios": "^0.18.0",
