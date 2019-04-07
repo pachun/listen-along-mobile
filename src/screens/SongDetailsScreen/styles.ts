@@ -19,6 +19,7 @@ export default StyleSheet.create({
   },
   albumCoverContainer: {
     width: "85%",
+    maxWidth: 600,
     aspectRatio: 1,
   },
   albumCover: {
@@ -27,7 +28,7 @@ export default StyleSheet.create({
   },
   bottomContent: {
     marginLeft: "7.5%",
-    maxWidth: "85%",
+    width: "85%",
   },
   songName: {
     fontSize: 24,
