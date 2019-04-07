@@ -1,5 +1,6 @@
 import * as React from "react"
-import { AsyncStorage, FlatList, View } from "react-native"
+import { Alert, AsyncStorage, FlatList, View } from "react-native"
+import { Linking } from "expo"
 import { Dispatch } from "redux"
 import { connect } from "react-redux"
 import { NavigationScreenProp } from "react-navigation"
@@ -24,6 +25,7 @@ class SpotifyUsersScreen extends React.Component<ISpotifyUsersScreenProps> {
 
   public state = {
     cable: api.cable,
+    startSpotifyPopupDisplayed: false,
   }
 
   public componentDidMount() {
@@ -64,27 +66,58 @@ class SpotifyUsersScreen extends React.Component<ISpotifyUsersScreenProps> {
   )
 
   private updateSpotifyUsers = () => {
-    api.spotifyUsers().then(this.props.updateSpotifyUsers)
+    api.spotifyUsers().then(spotifyUsers => {
+      this.props.updateSpotifyUsers(spotifyUsers)
+      if (this.loggedIn() && !this.props.mySpotifyUser.is_listening) {
+        this.startSpotify()
+      }
+    })
   }
 
   private listenAlong = (broadcaster: ISpotifyUser) => (): void => {
     if (broadcaster.is_me) {
       return null
+    } else if (!this.loggedIn()) {
+      this.authenticateAndListenTo(broadcaster)
+    } else if (this.props.mySpotifyUser.is_listening) {
+      this.listenTo(broadcaster)
+    } else {
+      this.startSpotify()
     }
-    const broadcasterUsername = broadcaster.username
-    AsyncStorage.getItem("listenAlongToken").then(listenAlongToken => {
-      if (listenAlongToken === null) {
-        this.props.navigation.navigate("AuthenticationScreen", {
-          broadcasterUsername,
-        })
-      } else {
-        api
-          .listenAlong(broadcasterUsername)
-          .then(this.updateSpotifyUsers)
-          .catch(this.refreshTokenAndListenAlong(broadcaster))
-      }
+  }
+
+  private startSpotify = () => {
+    if (this.state.startSpotifyPopupDisplayed) {
+      return
+    }
+    this.setState({ startSpotifyPopupDisplayed: true }, () => {
+      const silentTrackLink =
+        "https://open.spotify.com/track/7cctPQS83y620UQtMd1ilL?si=ZPZm-RpiTnKRiWUep0cQTg"
+      Alert.alert("Come Right Back!", "Start Spotify to use Listen Along.", [
+        {
+          text: "Start Spotify",
+          onPress: () => {
+            this.setState({ startSpotifyPopupDisplayed: false })
+            Linking.openURL(silentTrackLink)
+          },
+        },
+      ])
     })
   }
+
+  private listenTo = (broadcaster: ISpotifyUser) => {
+    api
+      .listenAlong(broadcaster.username)
+      .then(this.updateSpotifyUsers)
+      .catch(this.refreshTokenAndListenAlong(broadcaster))
+  }
+
+  private authenticateAndListenTo = (broadcaster: ISpotifyUser) =>
+    this.props.navigation.navigate("AuthenticationScreen", {
+      broadcasterUsername: broadcaster.username,
+    })
+
+  private loggedIn = () => this.props.mySpotifyUser !== undefined
 
   private refreshTokenAndListenAlong = (broadcaster: ISpotifyUser) => () => {
     AsyncStorage.removeItem("listenAlongToken").then(

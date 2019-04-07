@@ -1,5 +1,4 @@
 import axios from "axios"
-import { Linking } from "expo"
 import { AsyncStorage } from "react-native"
 import reactNativeActioncable from "react-native-actioncable"
 
