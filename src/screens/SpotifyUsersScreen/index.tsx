@@ -66,12 +66,7 @@ class SpotifyUsersScreen extends React.Component<ISpotifyUsersScreenProps> {
   )
 
   private updateSpotifyUsers = () => {
-    api.spotifyUsers().then(spotifyUsers => {
-      this.props.updateSpotifyUsers(spotifyUsers)
-      if (this.loggedIn() && !this.props.mySpotifyUser.is_listening) {
-        this.startSpotify()
-      }
-    })
+    api.spotifyUsers().then(this.props.updateSpotifyUsers)
   }
 
   private listenAlong = (broadcaster: ISpotifyUser) => (): void => {
