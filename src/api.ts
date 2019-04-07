@@ -19,10 +19,8 @@ const websocketURL = dev
 const api = {
   cable: reactNativeActioncable.createConsumer(websocketURL),
 
-  authenticateAndListenTo: async (broadcasterUsername: string) => {
-    return Linking.openURL(
-      `${baseURL}/registering_spotify_users/new?broadcaster_username=${broadcasterUsername}&mobile=true`,
-    )
+  authenticateAndListenToLink: (broadcasterUsername: string) => {
+    return `${baseURL}/registering_spotify_users/new?broadcaster_username=${broadcasterUsername}&mobile=true`
   },
 
   spotifyUsers: async () => {

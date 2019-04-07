@@ -1,5 +1,4 @@
 import * as React from "react"
-import { Linking } from "expo"
 import { AsyncStorage, FlatList, View } from "react-native"
 import { Dispatch } from "redux"
 import { connect } from "react-redux"
@@ -28,8 +27,9 @@ class SpotifyUsersScreen extends React.Component<ISpotifyUsersScreenProps> {
   }
 
   public componentDidMount() {
-    AsyncStorage.setItem("listenAlongToken", "ddufcftpxuknkmnkmrpvlqybaoqfhkla")
-    Linking.addEventListener("url", this.saveListenAlongToken)
+    if (__DEV__) {
+      AsyncStorage.removeItem("listenAlongToken")
+    }
     this.updateSpotifyUsers()
     this.state.cable.subscriptions.create("SpotifyUsersChannel", {
       received: this.updateSpotifyUsers,
@@ -54,11 +54,6 @@ class SpotifyUsersScreen extends React.Component<ISpotifyUsersScreenProps> {
     this.props.navigation.navigate("SongDetailsScreen")
   }
 
-  private saveListenAlongToken = (link: IListenAlongLink) => {
-    const listenAlongToken = Linking.parse(link.url).queryParams.token
-    AsyncStorage.setItem("listenAlongToken", listenAlongToken)
-  }
-
   private keyExtractor = (item: ISpotifyUser) => item.id.toString()
 
   private renderItem = (spotifyUserListItem: ISpotifyUserListItem) => (
@@ -79,7 +74,9 @@ class SpotifyUsersScreen extends React.Component<ISpotifyUsersScreenProps> {
     const broadcasterUsername = broadcaster.username
     AsyncStorage.getItem("listenAlongToken").then(listenAlongToken => {
       if (listenAlongToken === null) {
-        api.authenticateAndListenTo(broadcasterUsername)
+        this.props.navigation.navigate("AuthenticationScreen", {
+          broadcasterUsername,
+        })
       } else {
         api
           .listenAlong(broadcasterUsername)
@@ -101,8 +98,6 @@ class SpotifyUsersScreen extends React.Component<ISpotifyUsersScreenProps> {
 }
 
 const mapStateToProps = (state: IState) => {
-  // const x = state
-  // debugger
   return {
     spotifyUsers: spotifyUsersFromState(state),
     mySpotifyUser: mySpotifyUserFromState(state),
