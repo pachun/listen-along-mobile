@@ -1,17 +1,24 @@
 import * as React from "react"
 import { Linking } from "expo"
 import { NavigationScreenProp } from "react-navigation"
-import { AsyncStorage, WebView } from "react-native"
+import { AsyncStorage, Button, WebView } from "react-native"
 
 import api from "../../api"
 import HeaderTitle from "../../components/HeaderTitle"
 
+interface INavigationOptionsProps {
+  navigation: NavigationScreenProp<{}>
+}
+
 class AuthenticationScreen extends React.Component<{
   navigation: NavigationScreenProp<{}>
 }> {
-  public static navigationOptions = {
+  public static navigationOptions = (nav: INavigationOptionsProps) => ({
     headerTitle: <HeaderTitle />,
-  }
+    headerLeft: (
+      <Button title="Cancel" onPress={() => nav.navigation.popToTop()} />
+    ),
+  })
 
   public componentDidMount() {
     Linking.addEventListener("url", this.saveListenAlongToken)
