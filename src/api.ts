@@ -1,5 +1,6 @@
 import axios from "axios"
 import { AsyncStorage } from "react-native"
+import { Updates } from "expo"
 import reactNativeActioncable from "react-native-actioncable"
 
 const listenAlongToken = async () =>
@@ -23,6 +24,7 @@ const api = {
   },
 
   spotifyUsers: async () => {
+    await updateAppVersion()
     const client = axios.create({
       baseURL,
       headers: { Authorization: `Bearer ${await listenAlongToken()}` },
@@ -49,6 +51,16 @@ const api = {
       song_id: songId,
     })
   },
+}
+
+const updateAppVersion = async () => {
+  if (__DEV__) {
+    return
+  }
+  const { isAvailable } = await Updates.checkForUpdateAsync()
+  if (isAvailable) {
+    await Updates.reload()
+  }
 }
 
 export default api
