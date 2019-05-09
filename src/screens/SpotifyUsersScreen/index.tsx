@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Alert, AsyncStorage, FlatList, View } from "react-native"
+import { AsyncStorage, FlatList, View } from "react-native"
 import { Linking } from "expo"
 import { Dispatch } from "redux"
 import { connect } from "react-redux"
@@ -25,7 +25,6 @@ class SpotifyUsersScreen extends React.Component<ISpotifyUsersScreenProps> {
 
   public state = {
     cable: api.cable,
-    startSpotifyPopupDisplayed: false,
   }
 
   public componentDidMount() {
@@ -77,27 +76,17 @@ class SpotifyUsersScreen extends React.Component<ISpotifyUsersScreenProps> {
     } else if (this.props.mySpotifyUser.is_listening) {
       this.listenTo(broadcaster)
     } else {
-      this.startSpotify()
+      this.startPlayingSongURI(broadcaster.song_uri).then(() =>
+        this.listenTo(broadcaster),
+      )
     }
   }
 
-  private startSpotify = () => {
-    if (this.state.startSpotifyPopupDisplayed) {
-      return
-    }
-    this.setState({ startSpotifyPopupDisplayed: true }, () => {
-      const silentTrackLink =
-        "https://open.spotify.com/track/7cctPQS83y620UQtMd1ilL?si=ZPZm-RpiTnKRiWUep0cQTg"
-      Alert.alert("Come Right Back!", "Start Spotify to use Listen Along.", [
-        {
-          text: "Start Spotify",
-          onPress: () => {
-            this.setState({ startSpotifyPopupDisplayed: false })
-            Linking.openURL(silentTrackLink)
-          },
-        },
-      ])
-    })
+  private startPlayingSongURI = async (songURI: string) => {
+    const lastElement = (array: string[]) => array[array.length - 1]
+    const songID = lastElement(songURI.split(":"))
+    const trackLink = `https://open.spotify.com/track/${songID}`
+    await Linking.openURL(trackLink)
   }
 
   private listenTo = (broadcaster: ISpotifyUser) => {
