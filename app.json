@@ -28,7 +28,8 @@
       "bundleIdentifier": "fm.listenalong"
     },
     "android": {
-      "package": "fm.listenalong"
+      "package": "fm.listenalong",
+      "versionCode": 2
     }
   }
 }
