@@ -8,19 +8,27 @@ import api from "../../api"
 import HeaderTitle from "../../components/HeaderTitle"
 import SpotifyUserListItem from "../../components/SpotifyUserListItem"
 import CurrentlyPlaying from "../../components/CurrentlyPlaying"
+import LeaveFeedbackButton from "../../components/LeaveFeedbackButton"
 import { spotifyUsersFromState, mySpotifyUserFromState } from "../../selectors"
 import styles from "./styles"
 
-interface ISpotifyUsersScreenProps {
+interface IProps {
   navigation: NavigationScreenProp<{}>
   spotifyUsers: ISpotifyUser[]
   mySpotifyUser: IMySpotifyUser
   updateSpotifyUsers: (spotifyUsers: ISpotifyUser[]) => void
 }
 
-class SpotifyUsersScreen extends React.Component<ISpotifyUsersScreenProps> {
-  public static navigationOptions = {
-    headerTitle: <HeaderTitle />,
+interface INavigationOptionsProps {
+  navigation: NavigationScreenProp<{}>
+}
+
+class SpotifyUsersScreen extends React.Component<IProps> {
+  public static navigationOptions = (props: INavigationOptionsProps) => {
+    return {
+      headerTitle: <HeaderTitle />,
+      headerLeft: <LeaveFeedbackButton navigation={props.navigation} />,
+    }
   }
 
   public state = {
