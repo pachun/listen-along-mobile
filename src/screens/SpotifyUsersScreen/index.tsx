@@ -1,5 +1,5 @@
 import * as React from "react"
-import { AsyncStorage, FlatList, View } from "react-native"
+import { AppState, AsyncStorage, FlatList, View } from "react-native"
 import { Linking } from "expo"
 import { Dispatch } from "redux"
 import { connect } from "react-redux"
@@ -25,6 +25,7 @@ class SpotifyUsersScreen extends React.Component<ISpotifyUsersScreenProps> {
 
   public state = {
     cable: api.cable,
+    appState: AppState.currentState,
   }
 
   public componentDidMount() {
@@ -32,9 +33,8 @@ class SpotifyUsersScreen extends React.Component<ISpotifyUsersScreenProps> {
       AsyncStorage.removeItem("listenAlongToken")
     }
     this.updateSpotifyUsers()
-    this.state.cable.subscriptions.create("SpotifyUsersChannel", {
-      received: this.updateSpotifyUsers,
-    })
+    this.updateSpotifyUsersPeriodically()
+    this.updateSpotifyUsersWhenAppIsForegrounded()
   }
 
   public render() {
@@ -63,6 +63,26 @@ class SpotifyUsersScreen extends React.Component<ISpotifyUsersScreenProps> {
       onTap={this.listenAlong(spotifyUserListItem.item)}
     />
   )
+
+  private updateSpotifyUsersWhenAppIsForegrounded = () => {
+    AppState.addEventListener("change", this.handleAppStateChange)
+  }
+
+  private handleAppStateChange = (nextAppState: string) => {
+    if (
+      this.state.appState.match(/inactive|background/) &&
+      nextAppState === "active"
+    ) {
+      this.updateSpotifyUsers()
+    }
+    this.setState({ appState: nextAppState })
+  }
+
+  private updateSpotifyUsersPeriodically = () => {
+    this.state.cable.subscriptions.create("SpotifyUsersChannel", {
+      received: this.updateSpotifyUsers,
+    })
+  }
 
   private updateSpotifyUsers = () => {
     api.spotifyUsers().then(this.props.updateSpotifyUsers)
