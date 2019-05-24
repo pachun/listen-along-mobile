@@ -7,7 +7,11 @@ const AddSongToLibraryButton: React.SFC<{
   addToLibrary: () => void
 }> = ({ addedToLibrary, addToLibrary }) => {
   return (
-    <TouchableHighlight underlayColor="transparent" onPress={addToLibrary}>
+    <TouchableHighlight
+      underlayColor="transparent"
+      onPress={addToLibrary}
+      style={{ padding: 20 }}
+    >
       {addedToLibrary ? (
         <Ionicons name="ios-heart" color="red" size={32} />
       ) : (
