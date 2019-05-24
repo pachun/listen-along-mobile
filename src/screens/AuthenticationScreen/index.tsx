@@ -57,7 +57,9 @@ class AuthenticationScreen extends React.Component<IAuthenticationScreenProps> {
   private listenAlong = (link: IListenAlongLink) => {
     this.updateSpotifyUsers().then(() => {
       const broadcaster = this.broadcasterFrom(link)
-      if (this.props.mySpotifyUser.is_listening) {
+      if (this.props.mySpotifyUser.id === broadcaster.id) {
+        return
+      } else if (this.props.mySpotifyUser.is_listening) {
         this.listenTo(broadcaster)
       } else {
         this.startPlayingSongURI(broadcaster.song_uri).then(() =>
