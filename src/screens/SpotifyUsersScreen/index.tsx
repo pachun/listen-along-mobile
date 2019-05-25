@@ -40,6 +40,7 @@ class SpotifyUsersScreen extends React.Component<IProps> {
     if (__DEV__) {
       AsyncStorage.removeItem("listenAlongToken")
     }
+    this.allowListeningAlongThroughDeepLinks()
     this.updateSpotifyUsers()
     this.updateSpotifyUsersPeriodically()
     this.updateSpotifyUsersWhenAppIsForegrounded()
@@ -57,6 +58,28 @@ class SpotifyUsersScreen extends React.Component<IProps> {
         <CurrentlyPlaying goToSongDetails={this.goToSongDetails} />
       </View>
     )
+  }
+
+  private allowListeningAlongThroughDeepLinks = async () => {
+    Linking.addEventListener("url", this.handleListenAlongLink)
+    const initialURL = await Linking.getInitialURL()
+    this.handleLink(initialURL)
+  }
+
+  private handleListenAlongLink = (link: IListenAlongLink) => {
+    this.handleLink(link.url)
+  }
+
+  private handleLink = (url: string) => {
+    if (Linking.parse(url).path !== "listenalong") {
+      return
+    }
+    const broadcasterUsername = Linking.parse(url).queryParams
+      .broadcaster_username
+    const broadcaster = this.props.spotifyUsers.find(
+      spotifyUser => spotifyUser.username === broadcasterUsername,
+    )
+    this.listenAlong(broadcaster)()
   }
 
   private goToSongDetails = () => {
@@ -98,7 +121,7 @@ class SpotifyUsersScreen extends React.Component<IProps> {
 
   private listenAlong = (broadcaster: ISpotifyUser) => (): void => {
     if (broadcaster.is_me) {
-      return null
+      return
     } else if (!this.loggedIn()) {
       this.authenticateAndListenTo(broadcaster)
     } else if (this.props.mySpotifyUser.is_listening) {
