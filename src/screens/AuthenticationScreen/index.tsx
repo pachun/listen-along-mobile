@@ -1,17 +1,12 @@
 import * as React from "react"
-import { Linking } from "expo"
+import { LinearGradient, Linking } from "expo"
 import { Dispatch } from "redux"
 import { connect } from "react-redux"
 import { NavigationScreenProp } from "react-navigation"
-import { AsyncStorage, Button, WebView } from "react-native"
+import { AsyncStorage, Button, Text, View, WebView } from "react-native"
 import { spotifyUsersFromState, mySpotifyUserFromState } from "../../selectors"
-
 import api from "../../api"
-import HeaderTitle from "../../components/HeaderTitle"
-
-interface INavigationOptionsProps {
-  navigation: NavigationScreenProp<{}>
-}
+import styles from "./styles"
 
 interface IAuthenticationScreenProps {
   navigation: NavigationScreenProp<{}>
@@ -21,23 +16,34 @@ interface IAuthenticationScreenProps {
 }
 
 class AuthenticationScreen extends React.Component<IAuthenticationScreenProps> {
-  public static navigationOptions = (nav: INavigationOptionsProps) => ({
-    headerTitle: <HeaderTitle />,
-    headerLeft: (
-      <Button title="Cancel" onPress={() => nav.navigation.popToTop()} />
-    ),
-  })
-
   public componentDidMount() {
     Linking.addEventListener("url", this.saveListenAlongToken)
   }
 
   public render() {
     return (
-      <WebView
-        style={{ width: "100%", height: "100%" }}
-        source={{ uri: this.listenAlongLink() }}
-      />
+      <View style={styles.container}>
+        <LinearGradient
+          style={styles.headerContainer}
+          colors={["#f5f2f0", "#fff"]}
+          start={[0.0, 0.5]}
+          end={[1.0, 0.5]}
+        >
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>Sign In</Text>
+          </View>
+          <View style={styles.cancelButtonContainer}>
+            <Button
+              title="Cancel"
+              onPress={() => this.props.navigation.popToTop()}
+            />
+          </View>
+        </LinearGradient>
+        <WebView
+          style={styles.authenticationWebview}
+          source={{ uri: this.listenAlongLink() }}
+        />
+      </View>
     )
   }
 

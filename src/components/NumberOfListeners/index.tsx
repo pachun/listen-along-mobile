@@ -5,7 +5,7 @@ import { spotifyUsersFromState } from "../../selectors"
 import styles from "./styles"
 
 interface INumberOfListenersProps {
-  spotifyUser: ISpotifyUser
+  broadcaster: ISpotifyUser
   spotifyUsers: ISpotifyUser[]
 }
 
@@ -30,8 +30,8 @@ class NumberOfListeners extends React.Component<INumberOfListenersProps> {
   private numberOfListeners = () => {
     return this.props.spotifyUsers.filter(
       currentSpotifyUser =>
-        currentSpotifyUser.broadcaster !== null &&
-        currentSpotifyUser.broadcaster.id === this.props.spotifyUser.id,
+        currentSpotifyUser.broadcaster &&
+        currentSpotifyUser.broadcaster.id === this.props.broadcaster.id,
     ).length
   }
 
