@@ -7,7 +7,6 @@ import { NavigationScreenProp } from "react-navigation"
 
 import SpotifyUserListItem from "../../components/SpotifyUserListItem"
 import { broadcastersFromState, mySpotifyUserFromState } from "../../selectors"
-import styles from "./styles"
 import api from "../../api"
 
 interface IProps {
@@ -25,26 +24,21 @@ class Broadcasters extends React.Component<IProps> {
 
   public componentDidMount() {
     if (__DEV__) {
-      // AsyncStorage.removeItem("listenAlongToken")
-      AsyncStorage.setItem(
-        "listenAlongToken",
-        "pkbrbjsvhuptuhsjcmtcbzgvyhbgvejo",
-      )
+      AsyncStorage.removeItem("listenAlongToken")
     }
     this.allowListeningAlongThroughDeepLinks()
     this.updateSpotifyUsers()
     this.updateSpotifyUsersPeriodically()
     this.updateSpotifyUsersWhenAppIsForegrounded()
   }
+
   public render() {
     return (
-      <View style={styles.spotifyUsersListContainer}>
-        <FlatList
-          keyExtractor={this.keyExtractor}
-          data={this.props.broadcasters}
-          renderItem={this.renderItem}
-        />
-      </View>
+      <FlatList
+        keyExtractor={this.keyExtractor}
+        data={this.props.broadcasters}
+        renderItem={this.renderItem}
+      />
     )
   }
 

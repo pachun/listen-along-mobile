@@ -20,6 +20,7 @@ class SpotifyUsersScreen extends React.Component<IProps> {
         <BroadcastersHeader />
         <Broadcasters navigation={this.props.navigation} />
         <NowPlayingFooter />
+
         <FlashMessage position="top" />
       </View>
     )

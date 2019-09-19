@@ -6,7 +6,7 @@ import reactNativeActioncable from "react-native-actioncable"
 const listenAlongToken = async () =>
   await AsyncStorage.getItem("listenAlongToken")
 
-const dev = false
+const dev = __DEV__
 
 const baseURL = dev
   ? "http://localhost:3000"
