@@ -1,5 +1,5 @@
 import * as React from "react"
-import { LinearGradient } from "expo"
+import { LinearGradient } from "expo-linear-gradient"
 import { Text, View } from "react-native"
 import { connect } from "react-redux"
 import { NavigationScreenProp } from "react-navigation"

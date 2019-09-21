@@ -1,5 +1,6 @@
 import * as React from "react"
-import { LinearGradient, Linking } from "expo"
+import { Linking } from "expo"
+import { LinearGradient } from "expo-linear-gradient"
 import { Dispatch } from "redux"
 import { connect } from "react-redux"
 import { NavigationScreenProp } from "react-navigation"

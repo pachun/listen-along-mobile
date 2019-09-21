@@ -1,5 +1,5 @@
 import * as React from "react"
-import { LinearGradient } from "expo"
+import { LinearGradient } from "expo-linear-gradient"
 import { connect } from "react-redux"
 import { Image, Text, View } from "react-native"
 

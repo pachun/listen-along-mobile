@@ -3,7 +3,7 @@
     "name": "Listen Along",
     "slug": "listen-along-mobile",
     "privacy": "public",
-    "sdkVersion": "32.0.0",
+    "sdkVersion": "33.0.0",
     "scheme": "listenalong",
     "platforms": [
       "ios",
