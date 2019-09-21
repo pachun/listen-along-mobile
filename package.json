@@ -7,7 +7,7 @@
     "eject": "expo eject",
     "build:ios": "expo build:ios",
     "build:android": "expo build:android",
-    "deploy": "./deploy.sh"
+    "deploy": "expo-cli publish"
   },
   "dependencies": {
     "axios": "^0.18.0",
