@@ -10,7 +10,7 @@
     "deploy": "expo-cli publish"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "expo": "^35.0.0",
     "expo-constants": "~7.0.0",
     "expo-linear-gradient": "~7.0.0",
