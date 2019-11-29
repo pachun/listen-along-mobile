@@ -51,14 +51,6 @@ const api = {
       song_id: songId,
     })
   },
-
-  createFeedback: async (feedback: string) => {
-    const client = axios.create({
-      baseURL,
-      headers: { Authorization: `Bearer ${await listenAlongToken()}` },
-    })
-    return client.post("/feedback", { feedback })
-  },
 }
 
 const updateAppVersion = async () => {
