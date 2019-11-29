@@ -44,6 +44,7 @@ class AuthenticationScreen extends React.Component<IAuthenticationScreenProps> {
         <WebView
           style={styles.authenticationWebview}
           source={{ uri: this.listenAlongLink() }}
+          startInLoadingState={true}
         />
       </View>
     )
