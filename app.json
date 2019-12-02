@@ -25,6 +25,19 @@
     "android": {
       "package": "fm.listenalong",
       "versionCode": 3
+    },
+    "extra": {
+      "bugsnag": {
+        "apiKey": "a03e5de551c98e32374f2573f0f17979"
+      }
+    },
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "@bugsnag/expo/hooks/post-publish.js",
+          "config": {}
+        }
+      ]
     }
   }
 }
